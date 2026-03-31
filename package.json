@@ -1,0 +1,13 @@
+{
+  "name": "dukaanbook",
+  "version": "1.0.0",
+  "description": "Stationery shop manager — Vercel + Railway MySQL",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "mysql2": "^3.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3"
+  }
+}
