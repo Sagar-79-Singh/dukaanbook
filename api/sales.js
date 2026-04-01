@@ -20,6 +20,12 @@ module.exports = async (req, res) => {
       return res.json(rows);
     }
 
+    if (req.method === 'DELETE') {
+      if (user.role !== 'admin') return res.status(403).json({ error: 'Sirf admin delete kar sakta hai!' });
+      await pool.query('DELETE FROM sales WHERE id=?', [req.query.id]);
+      return res.json({ ok: true });
+    }
+
     if (req.method === 'POST') {
       const { sale_date, customer_id, customer_name, items, paid_amount, notes } = req.body;
       if (!items || !items.length) return res.status(400).json({ error: 'Items required' });
@@ -27,6 +33,21 @@ module.exports = async (req, res) => {
       const conn = await pool.getConnection();
       try {
         await conn.beginTransaction();
+
+        // ── STOCK CHECK ──────────────────────────────
+        for (const item of items) {
+          if (item.item_id) {
+            const [[st]] = await conn.query('SELECT current_stock, name FROM items WHERE id=?', [item.item_id]);
+            if (st && parseFloat(st.current_stock) < parseFloat(item.qty)) {
+              await conn.rollback();
+              conn.release();
+              return res.status(400).json({
+                error: `"${st.name}" ka stock kam hai! Available: ${st.current_stock}, Maanga: ${item.qty}`
+              });
+            }
+          }
+        }
+
         const total = items.reduce((s, i) => s + (i.qty * i.rate), 0);
         const paid  = parseFloat(paid_amount) || 0;
         const mode  = paid >= total ? 'cash' : paid > 0 ? 'partial' : 'credit';

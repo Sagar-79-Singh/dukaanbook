@@ -20,6 +20,12 @@ module.exports = async (req, res) => {
       return res.json(rows);
     }
 
+    if (req.method === 'DELETE') {
+      if (user.role !== 'admin') return res.status(403).json({ error: 'Sirf admin delete kar sakta hai!' });
+      await pool.query('DELETE FROM purchases WHERE id=?', [req.query.id]);
+      return res.json({ ok: true });
+    }
+
     if (req.method === 'POST') {
       const { purchase_date, supplier_id, supplier_name, items, paid_amount, notes } = req.body;
       if (!items || !items.length) return res.status(400).json({ error: 'Items required' });

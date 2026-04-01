@@ -7,7 +7,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ── LIGHT MODE (DEFAULT) ── */
 :root {
+  --bg:      #f4f1eb;
+  --bg2:     #ffffff;
+  --bg3:     #ede9e0;
+  --border:  #d5cfc2;
+  --accent:  #d4780a;
+  --accent2: #b35c00;
+  --green:   #16a34a;
+  --red:     #dc2626;
+  --blue:    #2563eb;
+  --purple:  #7c3aed;
+  --text:    #1c1917;
+  --text2:   #57534e;
+  --text3:   #a8a29e;
+  --radius:  12px;
+  --fmain:   'Baloo 2', sans-serif;
+  --fbody:   'Noto Sans', sans-serif;
+  --shadow:  0 1px 4px rgba(0,0,0,.08);
+}
+
+/* ── DARK MODE ── */
+body.dark {
   --bg:      #0f1117;
   --bg2:     #181b24;
   --bg3:     #1e2130;
@@ -21,58 +43,60 @@
   --text:    #f0f2f8;
   --text2:   #8b92a8;
   --text3:   #5a6178;
-  --radius:  12px;
-  --fmain:   'Baloo 2', sans-serif;
-  --fbody:   'Noto Sans', sans-serif;
+  --shadow:  0 1px 4px rgba(0,0,0,.3);
 }
+
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   background:var(--bg);color:var(--text);
   font-family:var(--fbody);min-height:100vh;
   display:flex;flex-direction:column;
+  transition:background .2s,color .2s;
 }
 
 /* ── TOPBAR ── */
 .topbar{
-  background:#0a0c12;
+  background:var(--bg2);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;
-  padding:0 16px;gap:6px;
-  height:54px;flex-shrink:0;
+  padding:0 14px;gap:4px;
+  height:52px;flex-shrink:0;
   position:sticky;top:0;z-index:100;
-  flex-wrap:wrap;
+  box-shadow:var(--shadow);
 }
 .topbar-logo{
   font-family:var(--fmain);font-weight:800;
-  font-size:18px;color:var(--accent);
-  margin-right:6px;white-space:nowrap;
+  font-size:17px;color:var(--accent);
+  margin-right:4px;white-space:nowrap;
 }
 .nav-btn{
   display:flex;align-items:center;gap:5px;
-  padding:7px 11px;border:none;
+  padding:6px 10px;border:none;
   background:transparent;color:var(--text2);
   font-family:var(--fmain);font-weight:600;
   font-size:13px;border-radius:8px;
   cursor:pointer;transition:all .15s;white-space:nowrap;
 }
 .nav-btn:hover{background:var(--bg3);color:var(--text);}
-.nav-btn.active{background:var(--accent);color:#0f1117;}
-.nav-sep{width:1px;height:22px;background:var(--border);margin:0 2px;}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-btn.active{background:var(--accent);color:#fff;}
+body:not(.dark) .nav-btn.active{color:#fff;}
+.nav-sep{width:1px;height:20px;background:var(--border);margin:0 2px;}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
 .user-chip{
-  font-size:12px;color:var(--text3);
-  background:var(--bg3);padding:4px 10px;
+  font-size:12px;color:var(--text2);
+  background:var(--bg3);padding:4px 9px;
   border-radius:20px;border:1px solid var(--border);
 }
-.btn-logout{
-  background:transparent;border:1px solid var(--border);
-  color:var(--text3);padding:5px 10px;border-radius:8px;
+.btn-top{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text2);padding:5px 10px;border-radius:8px;
   font-size:12px;cursor:pointer;transition:all .15s;
+  font-family:var(--fbody);
 }
-.btn-logout:hover{border-color:var(--red);color:var(--red);}
+.btn-top:hover{border-color:var(--accent);color:var(--accent);}
 
 /* ── MAIN ── */
-.main{flex:1;padding:18px 20px;overflow-y:auto;}
+.main{flex:1;padding:16px 18px;overflow-y:auto;}
 
 /* ── PAGES ── */
 .page{display:none;animation:fadeIn .18s ease;}
@@ -80,31 +104,27 @@ body{
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── PAGE HEADER ── */
-.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
 .ph-title{font-family:var(--fmain);font-size:20px;font-weight:800;}
 .ph-title span{color:var(--accent);}
 
 /* ── DASHBOARD CARDS ── */
-.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 @media(max-width:700px){.dash-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:440px){.dash-grid{grid-template-columns:1fr;}}
 .dc{
   background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--radius);padding:16px;
-  position:relative;overflow:hidden;transition:border-color .2s;cursor:default;
+  border-radius:var(--radius);padding:14px 16px;
+  position:relative;overflow:hidden;box-shadow:var(--shadow);
 }
-.dc:hover{border-color:var(--accent);}
-.dc::after{
-  content:'';position:absolute;top:-20px;right:-20px;
-  width:70px;height:70px;border-radius:50%;opacity:.07;
-}
+.dc::after{content:'';position:absolute;top:-20px;right:-20px;width:64px;height:64px;border-radius:50%;opacity:.08;}
 .dc.c-orange::after{background:var(--accent);}
 .dc.c-green::after{background:var(--green);}
 .dc.c-red::after{background:var(--red);}
 .dc.c-blue::after{background:var(--blue);}
 .dc.c-purple::after{background:var(--purple);}
-.dc-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;}
-.dc-val{font-family:var(--fmain);font-size:24px;font-weight:800;line-height:1;margin-bottom:3px;}
+.dc-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;}
+.dc-val{font-family:var(--fmain);font-size:22px;font-weight:800;line-height:1;margin-bottom:2px;}
 .dc-val.c-orange{color:var(--accent);}
 .dc-val.c-green{color:var(--green);}
 .dc-val.c-red{color:var(--red);}
@@ -113,26 +133,26 @@ body{
 .dc-sub{font-size:11px;color:var(--text3);}
 
 /* ── QUICK ACTIONS ── */
-.qa{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.qa{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
 .qa-btn{
-  flex:1;min-width:130px;
-  display:flex;align-items:center;justify-content:center;gap:7px;
-  padding:13px 16px;border:none;border-radius:var(--radius);
-  font-family:var(--fmain);font-weight:700;font-size:15px;
+  flex:1;min-width:120px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 14px;border:none;border-radius:var(--radius);
+  font-family:var(--fmain);font-weight:700;font-size:14px;
   cursor:pointer;transition:all .15s;
 }
-.qa-btn:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.qa-btn:hover{transform:translateY(-1px);filter:brightness(1.06);}
 .qa-btn.sell{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;}
 .qa-btn.buy{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;}
-.qa-btn.recv{background:linear-gradient(135deg,#f5a623,#e8630a);color:#0f1117;}
+.qa-btn.recv{background:linear-gradient(135deg,#f5a623,#e8630a);color:#fff;}
 .qa-btn.paid{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;}
 
-/* ── TABLE CARD ── */
-.tcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-.ttoolbar{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+/* ── TABLE ── */
+.tcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.ttoolbar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
 .sbox{
   background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;padding:7px 12px;color:var(--text);
+  border-radius:8px;padding:6px 11px;color:var(--text);
   font-family:var(--fbody);font-size:13px;outline:none;
   width:200px;transition:border-color .2s;
 }
@@ -141,153 +161,141 @@ body{
 .scroll-x{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 thead tr{background:var(--bg3);}
-th{padding:9px 12px;text-align:left;font-weight:600;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
-td{padding:10px 12px;border-bottom:1px solid #1a1e2e;color:var(--text);}
-tbody tr:hover{background:rgba(255,255,255,.02);}
+th{padding:8px 12px;text-align:left;font-weight:600;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);}
+tbody tr:hover{background:var(--bg3);}
 tbody tr:last-child td{border-bottom:none;}
 
 /* ── BADGES ── */
 .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;}
-.bg-green{background:rgba(34,197,94,.15);color:var(--green);}
-.bg-red{background:rgba(239,68,68,.15);color:var(--red);}
-.bg-orange{background:rgba(245,166,35,.15);color:var(--accent);}
-.bg-blue{background:rgba(59,130,246,.15);color:var(--blue);}
-.bg-purple{background:rgba(168,85,247,.15);color:var(--purple);}
+.bg-green{background:rgba(22,163,74,.12);color:var(--green);}
+.bg-red{background:rgba(220,38,38,.12);color:var(--red);}
+.bg-orange{background:rgba(212,120,10,.12);color:var(--accent);}
+.bg-blue{background:rgba(37,99,235,.12);color:var(--blue);}
+.bg-purple{background:rgba(124,58,237,.12);color:var(--purple);}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;border:none;font-family:var(--fmain);font-weight:600;font-size:13px;cursor:pointer;transition:all .15s;}
-.btn:hover{filter:brightness(1.1);}
-.btn-primary{background:var(--accent);color:#0f1117;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:none;font-family:var(--fmain);font-weight:600;font-size:13px;cursor:pointer;transition:all .15s;}
+.btn:hover{filter:brightness(1.08);}
+.btn-primary{background:var(--accent);color:#fff;}
 .btn-green{background:var(--green);color:#fff;}
-.btn-red{background:var(--red);color:#fff;}
 .btn-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
 .btn-ghost:hover{color:var(--text);border-color:var(--accent);}
 .btn-sm{padding:4px 9px;font-size:12px;}
-.btn-icon{padding:5px 7px;font-size:14px;}
+.btn-icon{padding:4px 7px;font-size:13px;}
 
-/* ── SELL/BUY FORM ── */
-.entry-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* ── ENTRY CARD ── */
+.entry-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
 @media(max-width:500px){.fgrid{grid-template-columns:1fr;}}
 .ffull{grid-column:1/-1;}
-.fg{display:flex;flex-direction:column;gap:5px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
 .flbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;}
-.finput,.fselect,.ftextarea{
+.finput,.fselect{
   background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;padding:8px 11px;color:var(--text);
+  border-radius:8px;padding:8px 10px;color:var(--text);
   font-family:var(--fbody);font-size:14px;outline:none;
   transition:border-color .2s;width:100%;
 }
 .finput:focus,.fselect:focus{border-color:var(--accent);}
 .finput::placeholder{color:var(--text3);}
-.fselect option{background:var(--bg2);}
-.ftextarea{resize:vertical;min-height:60px;}
+.fselect option{background:var(--bg2);color:var(--text);}
 
 /* ── BILL TABLE ── */
-.bill-tbl{width:100%;border-collapse:collapse;margin:10px 0;}
-.bill-tbl th{background:var(--bg3);padding:7px 9px;font-size:11px;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);text-transform:uppercase;white-space:nowrap;}
-.bill-tbl td{padding:5px 6px;border-bottom:1px solid #1a1e2e;}
+.bill-tbl{width:100%;border-collapse:collapse;margin:8px 0;}
+.bill-tbl th{background:var(--bg3);padding:6px 8px;font-size:11px;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);text-transform:uppercase;white-space:nowrap;}
+.bill-tbl td{padding:4px 6px;border-bottom:1px solid var(--border);}
 .bill-tbl .finput,.bill-tbl .fselect{padding:5px 7px;font-size:13px;}
-.bill-foot{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:10px 0;border-top:1px solid var(--border);margin-top:6px;flex-wrap:wrap;}
+.bill-foot{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--border);margin-top:4px;flex-wrap:wrap;}
 .bill-total-lbl{font-size:13px;color:var(--text2);font-weight:600;}
-.bill-total-val{font-family:var(--fmain);font-size:24px;font-weight:800;color:var(--accent);}
-.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.bill-total-val{font-family:var(--fmain);font-size:22px;font-weight:800;color:var(--accent);}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
 
 /* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(4px);padding:16px;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(3px);padding:16px;}
 .overlay.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.modal-lg{max-width:760px;}
-.mhead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:1;}
-.mtitle{font-family:var(--fmain);font-size:16px;font-weight:800;}
-.mclose{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.mhead{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:1;}
+.mtitle{font-family:var(--fmain);font-size:15px;font-weight:800;}
+.mclose{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:26px;height:26px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .mclose:hover{color:var(--red);border-color:var(--red);}
-.mbody{padding:18px 20px;}
+.mbody{padding:16px 18px;}
 
 /* ── LEDGER ── */
-.ledger-top{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.lt-name{font-family:var(--fmain);font-size:18px;font-weight:800;}
-.lt-bal{margin-left:auto;text-align:right;}
-.lt-bal-val{font-family:var(--fmain);font-size:22px;font-weight:800;}
+.ledger-top{background:var(--bg3);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--border);}
+.lt-name{font-family:var(--fmain);font-size:17px;font-weight:800;}
+.lt-bal-val{font-family:var(--fmain);font-size:20px;font-weight:800;}
+
+/* ── MASTERS ── */
+.masters-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.masters-grid{grid-template-columns:1fr;}}
+.master-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);}
+.mc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.mc-title{font-family:var(--fmain);font-weight:700;font-size:14px;}
+.mc-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.mc-row:last-child{border-bottom:none;}
+.mc-sub{font-size:11px;color:var(--text3);}
 
 /* ── TOAST ── */
-.toasts{position:fixed;bottom:18px;right:18px;display:flex;flex-direction:column;gap:7px;z-index:9999;}
-.toast{padding:11px 16px;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--fmain);display:flex;align-items:center;gap:7px;animation:tIn .25s ease;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+.toasts{position:fixed;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:9999;}
+.toast{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--fmain);display:flex;align-items:center;gap:6px;animation:tIn .22s ease;box-shadow:0 4px 16px rgba(0,0,0,.15);}
 .toast.ok{background:var(--green);color:#fff;}
 .toast.err{background:var(--red);color:#fff;}
 .toast.info{background:var(--blue);color:#fff;}
-@keyframes tIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
 
-/* ── LOADING ── */
-#loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:9998;}
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:9998;}
 .ldots span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 3px;animation:bl 1s infinite;}
 .ldots span:nth-child(2){animation-delay:.2s;}
 .ldots span:nth-child(3){animation-delay:.4s;}
 @keyframes bl{0%,100%{opacity:.2}50%{opacity:1}}
 
 /* ── EMPTY ── */
-.empty{text-align:center;padding:40px 20px;color:var(--text3);}
-.empty-ico{font-size:42px;margin-bottom:10px;}
-.empty-txt{font-family:var(--fmain);font-size:15px;font-weight:600;}
-
-/* ── MASTERS GRID ── */
-.masters-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media(max-width:600px){.masters-grid{grid-template-columns:1fr;}}
-.master-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;}
-.mc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.mc-title{font-family:var(--fmain);font-weight:700;font-size:14px;}
-.mc-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.mc-row:last-child{border-bottom:none;}
-.mc-unit-detail{font-size:11px;color:var(--text3);margin-top:1px;}
+.empty{text-align:center;padding:36px 20px;color:var(--text3);}
+.empty-ico{font-size:38px;margin-bottom:8px;}
+.empty-txt{font-family:var(--fmain);font-size:14px;font-weight:600;}
 
 /* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
-
-/* ── MOBILE NAV ── */
-@media(max-width:768px){
-  .topbar{height:auto;padding:8px 12px;}
-  .nav-btn .nav-lbl{display:none;}
-  .nav-btn{padding:7px 9px;}
-  .topbar-logo{font-size:15px;}
-}
 </style>
 </head>
-<body>
+<body><!-- light mode by default, .dark added by JS if saved -->
 
 <div id="loader">
-  <div style="font-family:var(--fmain);font-size:36px;font-weight:800;color:var(--accent)">🏪 DukaanBook</div>
+  <div style="font-family:var(--fmain);font-size:32px;font-weight:800;color:var(--accent)">🏪 DukaanBook</div>
   <div class="ldots"><span></span><span></span><span></span></div>
-  <div style="font-size:12px;color:var(--text3)">Loading...</div>
 </div>
 
 <!-- TOPBAR -->
 <nav class="topbar">
-  <span class="topbar-logo">🏪 DB</span>
-  <button class="nav-btn active" onclick="go('dashboard')" id="nav-dashboard"><span>🏠</span><span class="nav-lbl">Home</span></button>
-  <button class="nav-btn" onclick="go('sell')" id="nav-sell"><span>🛒</span><span class="nav-lbl">Sell</span></button>
-  <button class="nav-btn" onclick="go('buy')" id="nav-buy"><span>📦</span><span class="nav-lbl">Buy</span></button>
+  <span class="topbar-logo">🏪 DukaanBook</span>
+  <button class="nav-btn active" onclick="go('dashboard')" id="nav-dashboard"><span>🏠</span><span class="nav-lbl"> Home</span></button>
+  <button class="nav-btn" onclick="go('sell')" id="nav-sell"><span>🛒</span><span class="nav-lbl"> Sell</span></button>
+  <button class="nav-btn" onclick="go('buy')" id="nav-buy"><span>📦</span><span class="nav-lbl"> Buy</span></button>
   <div class="nav-sep"></div>
-  <button class="nav-btn" onclick="go('items')" id="nav-items"><span>📋</span><span class="nav-lbl">Items</span></button>
-  <button class="nav-btn" onclick="go('customers')" id="nav-customers"><span>👥</span><span class="nav-lbl">Customers</span></button>
-  <button class="nav-btn" onclick="go('suppliers')" id="nav-suppliers"><span>🏭</span><span class="nav-lbl">Suppliers</span></button>
+  <button class="nav-btn" onclick="go('items')" id="nav-items"><span>📋</span><span class="nav-lbl"> Items</span></button>
+  <button class="nav-btn" onclick="go('customers')" id="nav-customers"><span>👥</span><span class="nav-lbl"> Customers</span></button>
+  <button class="nav-btn" onclick="go('suppliers')" id="nav-suppliers"><span>🏭</span><span class="nav-lbl"> Suppliers</span></button>
   <div class="nav-sep"></div>
-  <button class="nav-btn" onclick="go('stock')" id="nav-stock"><span>📊</span><span class="nav-lbl">Stock</span></button>
-  <button class="nav-btn" onclick="go('sales-rep')" id="nav-sales-rep"><span>📈</span><span class="nav-lbl">Sales</span></button>
-  <button class="nav-btn" onclick="go('purch-rep')" id="nav-purch-rep"><span>📉</span><span class="nav-lbl">Purchases</span></button>
+  <button class="nav-btn" onclick="go('stock')" id="nav-stock"><span>📊</span><span class="nav-lbl"> Stock</span></button>
+  <button class="nav-btn" onclick="go('sales-rep')" id="nav-sales-rep"><span>📈</span><span class="nav-lbl"> Sales</span></button>
+  <button class="nav-btn" onclick="go('purch-rep')" id="nav-purch-rep"><span>📉</span><span class="nav-lbl"> Purchases</span></button>
   <div class="nav-sep"></div>
-  <button class="nav-btn" onclick="go('masters')" id="nav-masters"><span>⚙️</span><span class="nav-lbl">Masters</span></button>
+  <button class="nav-btn" onclick="go('masters')" id="nav-masters"><span>⚙️</span><span class="nav-lbl"> Masters</span></button>
   <div class="topbar-right">
+    <button class="btn-top" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
     <span class="user-chip" id="userChip">👤</span>
-    <button class="btn-logout" onclick="logout()">Logout</button>
+    <button class="btn-top" onclick="logout()" style="color:var(--red)">Logout</button>
   </div>
 </nav>
 
 <!-- MAIN -->
 <div class="main">
 
-<!-- ══ DASHBOARD ══ -->
+<!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
   <div class="ph">
     <div class="ph-title">Dashboard <span>— Aaj ka Haal</span></div>
@@ -309,7 +317,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ SELL ══ -->
+<!-- SELL -->
 <div class="page" id="page-sell">
   <div class="ph">
     <div class="ph-title">New <span>Sale</span></div>
@@ -319,20 +327,18 @@ tbody tr:last-child td{border-bottom:none;}
     <div class="fgrid">
       <div class="fg"><label class="flbl">Date</label><input type="date" class="finput" id="s-date"></div>
       <div class="fg">
-        <label class="flbl">Customer <span style="color:var(--text3);font-weight:400;text-transform:none">(optional)</span></label>
-        <select class="fselect" id="s-cust">
-          <option value="">— Walk-in / Cash Sale —</option>
-        </select>
+        <label class="flbl">Customer <span style="font-weight:400;text-transform:none;font-size:10px">(optional — walk-in allowed)</span></label>
+        <select class="fselect" id="s-cust"><option value="">— Walk-in / Cash Sale —</option></select>
       </div>
-      <div class="fg ffull"><label class="flbl">Notes</label><input type="text" class="finput" id="s-notes" placeholder="Optional note..."></div>
+      <div class="fg ffull"><label class="flbl">Notes</label><input type="text" class="finput" id="s-notes" placeholder="Optional..."></div>
     </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin:16px 0 6px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 5px">
       <span style="font-family:var(--fmain);font-weight:700;font-size:14px">Items</span>
       <button class="btn btn-ghost btn-sm" onclick="addSellRow()">➕ Add Row</button>
     </div>
     <div class="scroll-x">
       <table class="bill-tbl">
-        <thead><tr><th style="min-width:200px">Item</th><th style="min-width:80px">Qty</th><th style="min-width:100px">Unit</th><th style="min-width:90px">Rate ₹</th><th style="min-width:80px">Amount</th><th></th></tr></thead>
+        <thead><tr><th style="min-width:190px">Item</th><th style="min-width:75px">Qty</th><th style="min-width:95px">Unit</th><th style="min-width:85px">Rate ₹</th><th style="min-width:75px">Amount</th><th></th></tr></thead>
         <tbody id="s-rows"></tbody>
       </table>
     </div>
@@ -340,8 +346,8 @@ tbody tr:last-child td{border-bottom:none;}
       <span class="bill-total-lbl">Total:</span>
       <span class="bill-total-val" id="s-total">₹0.00</span>
     </div>
-    <div class="fgrid" style="margin-top:10px">
-      <div class="fg"><label class="flbl">Paid Amount ₹</label><input type="number" class="finput" id="s-paid" placeholder="0 = full credit" oninput="calcSell()"></div>
+    <div class="fgrid" style="margin-top:8px">
+      <div class="fg"><label class="flbl">Paid ₹</label><input type="number" class="finput" id="s-paid" placeholder="0 = full credit" oninput="calcSell()"></div>
       <div class="fg"><label class="flbl">Balance Due</label><input type="text" class="finput" id="s-bal" readonly style="color:var(--accent);font-weight:700"></div>
     </div>
     <div class="form-actions">
@@ -351,7 +357,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ BUY ══ -->
+<!-- BUY -->
 <div class="page" id="page-buy">
   <div class="ph">
     <div class="ph-title">New <span>Purchase</span></div>
@@ -363,13 +369,13 @@ tbody tr:last-child td{border-bottom:none;}
       <div class="fg"><label class="flbl">Supplier</label><select class="fselect" id="b-supp"><option value="">— Supplier Choose Karo —</option></select></div>
       <div class="fg ffull"><label class="flbl">Notes / Invoice No.</label><input type="text" class="finput" id="b-notes" placeholder="Invoice no., notes..."></div>
     </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin:16px 0 6px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 5px">
       <span style="font-family:var(--fmain);font-weight:700;font-size:14px">Items</span>
       <button class="btn btn-ghost btn-sm" onclick="addBuyRow()">➕ Add Row</button>
     </div>
     <div class="scroll-x">
       <table class="bill-tbl">
-        <thead><tr><th style="min-width:200px">Item</th><th style="min-width:80px">Qty</th><th style="min-width:100px">Unit</th><th style="min-width:90px">Rate ₹</th><th style="min-width:80px">Amount</th><th></th></tr></thead>
+        <thead><tr><th style="min-width:190px">Item</th><th style="min-width:75px">Qty</th><th style="min-width:95px">Unit</th><th style="min-width:85px">Rate ₹</th><th style="min-width:75px">Amount</th><th></th></tr></thead>
         <tbody id="b-rows"></tbody>
       </table>
     </div>
@@ -377,8 +383,8 @@ tbody tr:last-child td{border-bottom:none;}
       <span class="bill-total-lbl">Total:</span>
       <span class="bill-total-val" id="b-total">₹0.00</span>
     </div>
-    <div class="fgrid" style="margin-top:10px">
-      <div class="fg"><label class="flbl">Paid Amount ₹</label><input type="number" class="finput" id="b-paid" placeholder="0 = full credit" oninput="calcBuy()"></div>
+    <div class="fgrid" style="margin-top:8px">
+      <div class="fg"><label class="flbl">Paid ₹</label><input type="number" class="finput" id="b-paid" placeholder="0 = full credit" oninput="calcBuy()"></div>
       <div class="fg"><label class="flbl">Balance Due</label><input type="text" class="finput" id="b-bal" readonly style="color:var(--accent);font-weight:700"></div>
     </div>
     <div class="form-actions">
@@ -388,7 +394,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ ITEMS ══ -->
+<!-- ITEMS -->
 <div class="page" id="page-items">
   <div class="ph">
     <div class="ph-title">Items <span>— Products</span></div>
@@ -403,7 +409,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ CUSTOMERS ══ -->
+<!-- CUSTOMERS -->
 <div class="page" id="page-customers">
   <div class="ph">
     <div class="ph-title">Customers <span>— Receivables</span></div>
@@ -418,7 +424,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ SUPPLIERS ══ -->
+<!-- SUPPLIERS -->
 <div class="page" id="page-suppliers">
   <div class="ph">
     <div class="ph-title">Suppliers <span>— Payables</span></div>
@@ -433,7 +439,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ STOCK REPORT ══ -->
+<!-- STOCK -->
 <div class="page" id="page-stock">
   <div class="ph">
     <div class="ph-title">Stock <span>Summary</span></div>
@@ -442,17 +448,17 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="tcard">
     <div class="ttoolbar"><input class="sbox" placeholder="🔍 Search..." oninput="filterTbl(this,'stock-tb')"></div>
     <div class="scroll-x">
-      <table><thead><tr><th>Item</th><th>Group</th><th>Stock</th><th>Unit Info</th><th>Sale ₹</th><th>Stock Value</th><th>Status</th></tr></thead>
+      <table><thead><tr><th>Item</th><th>Group</th><th>Stock</th><th>Unit</th><th>Sale ₹</th><th>Stock Value</th><th>Status</th></tr></thead>
       <tbody id="stock-tb"></tbody></table>
     </div>
   </div>
 </div>
 
-<!-- ══ SALES REPORT ══ -->
+<!-- SALES REPORT -->
 <div class="page" id="page-sales-rep">
   <div class="ph">
     <div class="ph-title">Sales <span>Register</span></div>
-    <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
       <input type="date" class="finput" id="sr-from" style="width:130px">
       <span style="color:var(--text3);font-size:12px">to</span>
       <input type="date" class="finput" id="sr-to" style="width:130px">
@@ -461,17 +467,19 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
   <div class="tcard">
     <div class="scroll-x">
-      <table><thead><tr><th>#</th><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Due</th><th>Mode</th></tr></thead>
-      <tbody id="sr-tb"></tbody></table>
+      <table>
+        <thead><tr><th>#</th><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Due</th><th>Mode</th><th id="sr-del-th"></th></tr></thead>
+        <tbody id="sr-tb"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<!-- ══ PURCHASE REPORT ══ -->
+<!-- PURCHASE REPORT -->
 <div class="page" id="page-purch-rep">
   <div class="ph">
     <div class="ph-title">Purchase <span>Register</span></div>
-    <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
       <input type="date" class="finput" id="pr-from" style="width:130px">
       <span style="color:var(--text3);font-size:12px">to</span>
       <input type="date" class="finput" id="pr-to" style="width:130px">
@@ -480,13 +488,15 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
   <div class="tcard">
     <div class="scroll-x">
-      <table><thead><tr><th>#</th><th>Date</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Due</th><th>Mode</th></tr></thead>
-      <tbody id="pr-tb"></tbody></table>
+      <table>
+        <thead><tr><th>#</th><th>Date</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Due</th><th>Mode</th><th id="pr-del-th"></th></tr></thead>
+        <tbody id="pr-tb"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<!-- ══ MASTERS ══ -->
+<!-- MASTERS -->
 <div class="page" id="page-masters">
   <div class="ph"><div class="ph-title">Masters <span>— Groups & Units</span></div></div>
   <div class="masters-grid">
@@ -501,11 +511,11 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- ══ LEDGER ══ -->
+<!-- LEDGER -->
 <div class="page" id="page-ledger">
   <div class="ph">
     <div class="ph-title" id="ledger-title">Ledger</div>
-    <button class="btn btn-ghost btn-sm" onclick="history.back()">← Back</button>
+    <button class="btn btn-ghost btn-sm" onclick="goBack()">← Back</button>
   </div>
   <div id="ledger-top-area"></div>
   <div class="tcard">
@@ -518,11 +528,9 @@ tbody tr:last-child td{border-bottom:none;}
 
 </div><!-- /main -->
 
-<!-- TOASTS -->
 <div class="toasts" id="toasts"></div>
 
-<!-- ══ MODALS ══ -->
-
+<!-- MODALS -->
 <!-- Item -->
 <div class="overlay" id="itemModal">
   <div class="modal">
@@ -604,7 +612,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- Unit Modal (with compound support) -->
+<!-- Unit Modal -->
 <div class="overlay" id="unitModal">
   <div class="modal">
     <div class="mhead"><span class="mtitle">Add Unit</span><button class="mclose" onclick="closeM('unitModal')">✕</button></div>
@@ -614,23 +622,17 @@ tbody tr:last-child td{border-bottom:none;}
         <div class="fg ffull">
           <label class="flbl">Type</label>
           <select class="fselect" id="um-type" onchange="toggleCompound()">
-            <option value="simple">Simple Unit (e.g. Pcs, Kg, Metre)</option>
-            <option value="compound">Compound Unit (e.g. 1 Pkt = 20 Pcs)</option>
+            <option value="simple">Simple Unit (Pcs, Kg, Metre…)</option>
+            <option value="compound">Compound Unit (1 Pkt = 20 Pcs)</option>
           </select>
         </div>
-        <div class="fg ffull" id="um-compound-section" style="display:none">
+        <div class="fg ffull" id="um-csec" style="display:none">
           <div class="fgrid">
-            <div class="fg">
-              <label class="flbl">1 [this unit] = ? of Base Unit</label>
-              <input type="number" class="finput" id="um-qty" placeholder="e.g. 20">
-            </div>
-            <div class="fg">
-              <label class="flbl">Base Unit</label>
-              <select class="fselect" id="um-base"></select>
-            </div>
+            <div class="fg"><label class="flbl">1 [this unit] = how many?</label><input type="number" class="finput" id="um-qty" placeholder="e.g. 20"></div>
+            <div class="fg"><label class="flbl">Base Unit</label><select class="fselect" id="um-base"></select></div>
           </div>
-          <div style="margin-top:8px;padding:10px 12px;background:var(--bg3);border-radius:8px;font-size:12px;color:var(--text3)">
-            💡 Example: Unit name = <b style="color:var(--accent)">Pkt (20 Pcs)</b>, Qty = <b style="color:var(--accent)">20</b>, Base = <b style="color:var(--accent)">Pcs</b>
+          <div style="margin-top:7px;padding:9px 11px;background:var(--bg3);border-radius:8px;font-size:12px;color:var(--text3)">
+            💡 Example: Name = <b style="color:var(--accent)">Pkt (20 Pcs)</b>, Qty = <b style="color:var(--accent)">20</b>, Base = <b style="color:var(--accent)">Pcs</b>
           </div>
         </div>
       </div>
@@ -642,7 +644,7 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- Quick Add Item (during sell/buy) -->
+<!-- Quick Add Item -->
 <div class="overlay" id="qiModal">
   <div class="modal">
     <div class="mhead"><span class="mtitle">Quick Add Item</span><button class="mclose" onclick="closeM('qiModal')">✕</button></div>
@@ -663,132 +665,152 @@ tbody tr:last-child td{border-bottom:none;}
 </div>
 
 <script>
+// ── THEME (runs before body renders) ─────────────────
+(function(){
+  const saved = localStorage.getItem('db_theme');
+  if (saved === 'dark') document.body.classList.add('dark');
+  // default = light (no class needed)
+})();
+
 const API = '/api';
 const TOK = () => localStorage.getItem('db_token');
 const HDR = () => ({ 'Content-Type':'application/json', 'Authorization':'Bearer '+TOK() });
+const isAdmin = () => localStorage.getItem('db_role') === 'admin';
 
 let Items=[], Custs=[], Supps=[], Groups=[], Units=[];
-let qiCtx = null; // {form, rowIdx}
+let qiCtx=null, prevPage=null;
 
-// ─── BOOT ─────────────────────────────────────────
+// ── BOOT ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   if (!TOK()) { window.location.href='/'; return; }
-  document.getElementById('userChip').textContent = '👤 ' + (localStorage.getItem('db_user')||'');
+  document.getElementById('userChip').textContent = '👤 '+(localStorage.getItem('db_user')||'');
+  updateThemeBtn();
+  // Admin header columns
+  if (isAdmin()) {
+    document.getElementById('sr-del-th').textContent = 'Del';
+    document.getElementById('pr-del-th').textContent = 'Del';
+  }
   try {
     await Promise.all([fetchItems(), fetchCusts(), fetchSupps(), fetchGroups(), fetchUnits()]);
-    loadDash();
-    resetSell(); resetBuy();
-    setDates();
+    loadDash(); resetSell(); resetBuy(); setDates();
   } catch(e) {
-    if (e.status === 401) logout();
+    if (e.status===401) logout();
     else toast('Load error: '+e.message,'err');
   }
   document.getElementById('loader').style.display='none';
 });
 
-function logout() {
-  localStorage.clear();
-  window.location.href = '/';
+function logout(){ localStorage.clear(); window.location.href='/'; }
+
+function setDates(){
+  const t=today(), f=t.slice(0,8)+'01';
+  ['s-date','b-date','pm-date'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=t; });
+  ['sr-from','pr-from'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=f; });
+  ['sr-to','pr-to'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=t; });
 }
 
-function setDates() {
-  const t = today();
-  const f = t.slice(0,8)+'01';
-  ['s-date','b-date','pm-date'].forEach(id => { const el=document.getElementById(id); if(el) el.value=t; });
-  ['sr-from','pr-from'].forEach(id => { const el=document.getElementById(id); if(el) el.value=f; });
-  ['sr-to','pr-to'].forEach(id => { const el=document.getElementById(id); if(el) el.value=t; });
+// ── THEME ─────────────────────────────────────────────
+function toggleTheme(){
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('db_theme', isDark ? 'dark' : 'light');
+  updateThemeBtn();
+}
+function updateThemeBtn(){
+  const btn=document.getElementById('themeBtn');
+  if(!btn) return;
+  btn.textContent = document.body.classList.contains('dark') ? '☀️ Light' : '🌙 Dark';
 }
 
-// ─── API ──────────────────────────────────────────
-async function api(path, opts={}) {
+// ── API ───────────────────────────────────────────────
+async function api(path, opts={}){
   const res = await fetch(API+path, { headers:HDR(), ...opts });
-  if (res.status===401) { logout(); throw {status:401,message:'Unauthorized'}; }
-  if (!res.ok) { const e=await res.json().catch(()=>({error:res.statusText})); throw new Error(e.error||res.statusText); }
+  if (res.status===401){ logout(); throw {status:401,message:'Unauthorized'}; }
+  if (!res.ok){ const e=await res.json().catch(()=>({error:res.statusText})); throw new Error(e.error||res.statusText); }
   return res.json();
 }
 
-// ─── FETCH ────────────────────────────────────────
+// ── FETCH ─────────────────────────────────────────────
 async function fetchItems()  { Items  = await api('/items');     renderItems(); }
 async function fetchCusts()  { Custs  = await api('/customers'); renderCusts(); }
 async function fetchSupps()  { Supps  = await api('/suppliers'); renderSupps(); }
 async function fetchGroups() { Groups = await api('/groups'); }
 async function fetchUnits()  { Units  = await api('/units'); }
 
-// ─── NAV ──────────────────────────────────────────
-function go(name) {
+// ── NAV ───────────────────────────────────────────────
+function go(name){
+  const cur = document.querySelector('.page.active');
+  if(cur) prevPage = cur.id.replace('page-','');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const p=document.getElementById('page-'+name);
-  if(p) p.classList.add('active');
-  const n=document.getElementById('nav-'+name);
-  if(n) n.classList.add('active');
-  if(name==='dashboard') loadDash();
-  if(name==='items') renderItems();
-  if(name==='customers') renderCusts();
-  if(name==='suppliers') renderSupps();
-  if(name==='stock') loadStock();
-  if(name==='sales-rep') loadSalesRep();
-  if(name==='purch-rep') loadPurchRep();
-  if(name==='masters') renderMasters();
-  if(name==='sell') { populateSellCusts(); }
-  if(name==='buy')  { populateBuySupps(); }
+  const p=document.getElementById('page-'+name); if(p) p.classList.add('active');
+  const n=document.getElementById('nav-'+name);  if(n) n.classList.add('active');
+  if(name==='dashboard')  loadDash();
+  if(name==='items')      renderItems();
+  if(name==='customers')  renderCusts();
+  if(name==='suppliers')  renderSupps();
+  if(name==='stock')      loadStock();
+  if(name==='sales-rep')  loadSalesRep();
+  if(name==='purch-rep')  loadPurchRep();
+  if(name==='masters')    renderMasters();
+  if(name==='sell')       populateSellCusts();
+  if(name==='buy')        populateBuySupps();
 }
+function goBack(){ if(prevPage) go(prevPage); else go('dashboard'); }
 
-// ─── TOAST ────────────────────────────────────────
-function toast(msg, type='ok') {
+// ── TOAST ─────────────────────────────────────────────
+function toast(msg, type='ok'){
   const el=document.createElement('div');
   el.className=`toast ${type}`;
   el.textContent=(type==='ok'?'✅ ':type==='err'?'❌ ':'ℹ️ ')+msg;
   document.getElementById('toasts').appendChild(el);
-  setTimeout(()=>el.remove(),3200);
+  setTimeout(()=>el.remove(), 3500);
 }
 
-// ─── MODAL ────────────────────────────────────────
-function openM(id) { document.getElementById(id).classList.add('open'); }
+// ── MODAL ─────────────────────────────────────────────
+function openM(id){ document.getElementById(id).classList.add('open'); }
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
 
-// ─── DASHBOARD ────────────────────────────────────
-async function loadDash() {
-  try {
-    const d = await api('/reports?type=dashboard');
-    document.getElementById('d-tsales').textContent  = '₹'+fmt(d.today_sales.total);
-    document.getElementById('d-tbills').textContent  = d.today_sales.count+' bills';
-    document.getElementById('d-tpurch').textContent  = '₹'+fmt(d.today_purchases.total);
-    document.getElementById('d-sval').textContent    = '₹'+fmt(d.stock_value);
-    document.getElementById('d-recv').textContent    = '₹'+fmt(d.total_receivable);
-    document.getElementById('d-paybl').textContent   = '₹'+fmt(d.total_payable);
-    document.getElementById('d-low').textContent     = d.low_stock_count;
-  } catch(e) { toast('Dashboard: '+e.message,'err'); }
+// ── DASHBOARD ─────────────────────────────────────────
+async function loadDash(){
+  try{
+    const d=await api('/reports?type=dashboard');
+    document.getElementById('d-tsales').textContent ='₹'+fmt(d.today_sales.total);
+    document.getElementById('d-tbills').textContent = d.today_sales.count+' bills';
+    document.getElementById('d-tpurch').textContent ='₹'+fmt(d.today_purchases.total);
+    document.getElementById('d-sval').textContent   ='₹'+fmt(d.stock_value);
+    document.getElementById('d-recv').textContent   ='₹'+fmt(d.total_receivable);
+    document.getElementById('d-paybl').textContent  ='₹'+fmt(d.total_payable);
+    document.getElementById('d-low').textContent    = d.low_stock_count;
+  }catch(e){ toast('Dashboard: '+e.message,'err'); }
 }
 
-// ─── RENDER ITEMS ─────────────────────────────────
-function renderItems() {
+// ── RENDER ITEMS ──────────────────────────────────────
+function renderItems(){
   const tb=document.getElementById('items-tb');
-  if(!Items.length){tb.innerHTML=emptyRow(7,'📦','Koi item nahi — add karo!');return;}
+  if(!Items.length){tb.innerHTML=eRow(7,'📦','Koi item nahi — add karo!');return;}
   tb.innerHTML=Items.map(i=>{
     const isLow=parseFloat(i.current_stock)<=parseFloat(i.low_stock_alert)&&parseFloat(i.low_stock_alert)>0;
-    const unitInfo = i.conversion_qty ? `${i.unit_name} (1=${i.conversion_qty} ${i.base_unit_name})` : i.unit_name||'-';
+    const uInfo=i.conversion_qty?`${esc(i.unit_name)} (1=${i.conversion_qty} ${esc(i.base_unit_name||'')})`:esc(i.unit_name||'-');
     return `<tr>
       <td><strong>${esc(i.name)}</strong></td>
       <td>${esc(i.group_name||'-')}</td>
-      <td>${esc(unitInfo)}</td>
+      <td style="font-size:12px">${uInfo}</td>
       <td><span class="badge ${isLow?'bg-red':'bg-green'}">${i.current_stock} ${esc(i.unit_name||'')}</span></td>
-      <td>₹${fmt(i.sale_price)}</td>
-      <td>₹${fmt(i.purchase_price)}</td>
+      <td>₹${fmt(i.sale_price)}</td><td>₹${fmt(i.purchase_price)}</td>
       <td>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="editItem(${i.id})" title="Edit">✏️</button>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="delItem(${i.id})" title="Delete" style="color:var(--red)">🗑️</button>
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="editItem(${i.id})">✏️</button>
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="delItem(${i.id})" style="color:var(--red)">🗑️</button>
       </td>
     </tr>`;
   }).join('');
 }
 
-// ─── RENDER CUSTOMERS ─────────────────────────────
-function renderCusts() {
+// ── RENDER CUSTOMERS ──────────────────────────────────
+function renderCusts(){
   const tb=document.getElementById('cust-tb');
-  if(!Custs.length){tb.innerHTML=emptyRow(4,'👥','Koi customer nahi');return;}
+  if(!Custs.length){tb.innerHTML=eRow(4,'👥','Koi customer nahi');return;}
   tb.innerHTML=Custs.map(c=>`<tr>
-    <td><strong>${esc(c.name)}</strong><br><span style="font-size:11px;color:var(--text3)">${c.address||''}</span></td>
+    <td><strong>${esc(c.name)}</strong>${c.address?`<br><span style="font-size:11px;color:var(--text3)">${esc(c.address)}</span>`:''}</td>
     <td>${c.phone||'-'}</td>
     <td><span class="badge ${parseFloat(c.balance)>0?'bg-red':'bg-green'}">₹${fmt(c.balance)}</span></td>
     <td>
@@ -799,12 +821,12 @@ function renderCusts() {
   </tr>`).join('');
 }
 
-// ─── RENDER SUPPLIERS ─────────────────────────────
-function renderSupps() {
+// ── RENDER SUPPLIERS ──────────────────────────────────
+function renderSupps(){
   const tb=document.getElementById('supp-tb');
-  if(!Supps.length){tb.innerHTML=emptyRow(4,'🏭','Koi supplier nahi');return;}
+  if(!Supps.length){tb.innerHTML=eRow(4,'🏭','Koi supplier nahi');return;}
   tb.innerHTML=Supps.map(s=>`<tr>
-    <td><strong>${esc(s.name)}</strong><br><span style="font-size:11px;color:var(--text3)">${s.address||''}</span></td>
+    <td><strong>${esc(s.name)}</strong>${s.address?`<br><span style="font-size:11px;color:var(--text3)">${esc(s.address)}</span>`:''}</td>
     <td>${s.phone||'-'}</td>
     <td><span class="badge ${parseFloat(s.balance)>0?'bg-orange':'bg-green'}">₹${fmt(s.balance)}</span></td>
     <td>
@@ -815,25 +837,25 @@ function renderSupps() {
   </tr>`).join('');
 }
 
-// ─── ITEM CRUD ────────────────────────────────────
-function openItemModal(id=null) {
+// ── ITEM CRUD ─────────────────────────────────────────
+function openItemModal(id=null){
   document.getElementById('im-id').value=id||'';
   document.getElementById('itemMTitle').textContent=id?'Edit Item':'New Item';
   populateSel('im-group',Groups,'Select Group');
   populateSel('im-unit',Units,'Select Unit');
   const item=id?Items.find(i=>i.id===id):null;
-  document.getElementById('im-name').value=item?item.name:'';
-  document.getElementById('im-pp').value=item?item.purchase_price:'';
-  document.getElementById('im-sp').value=item?item.sale_price:'';
-  document.getElementById('im-os').value=item?item.opening_stock:'';
-  document.getElementById('im-ls').value=item?item.low_stock_alert:'';
+  document.getElementById('im-name').value=item?.name||'';
+  document.getElementById('im-pp').value=item?.purchase_price||'';
+  document.getElementById('im-sp').value=item?.sale_price||'';
+  document.getElementById('im-os').value=item?.opening_stock||'';
+  document.getElementById('im-ls').value=item?.low_stock_alert||'';
   if(item){ document.getElementById('im-group').value=item.group_id||''; document.getElementById('im-unit').value=item.unit_id||''; }
   openM('itemModal');
 }
 function editItem(id){ openItemModal(id); }
-async function saveItem() {
+async function saveItem(){
   const id=document.getElementById('im-id').value;
-  const d={ name:document.getElementById('im-name').value.trim(), group_id:document.getElementById('im-group').value, unit_id:document.getElementById('im-unit').value, purchase_price:document.getElementById('im-pp').value, sale_price:document.getElementById('im-sp').value, opening_stock:document.getElementById('im-os').value, low_stock_alert:document.getElementById('im-ls').value };
+  const d={name:document.getElementById('im-name').value.trim(),group_id:document.getElementById('im-group').value,unit_id:document.getElementById('im-unit').value,purchase_price:document.getElementById('im-pp').value,sale_price:document.getElementById('im-sp').value,opening_stock:document.getElementById('im-os').value,low_stock_alert:document.getElementById('im-ls').value};
   if(!d.name){toast('Naam dalo!','err');return;}
   try{
     if(id) await api('/items?id='+id,{method:'PUT',body:JSON.stringify(d)});
@@ -843,18 +865,17 @@ async function saveItem() {
 }
 async function delItem(id){
   if(!confirm('Item delete karo?'))return;
-  try{ await api('/items?id='+id,{method:'DELETE'}); await fetchItems(); toast('Deleted!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/items?id='+id,{method:'DELETE'}); await fetchItems(); toast('Deleted!'); }catch(e){toast(e.message,'err');}
 }
 
-// ─── CUSTOMER CRUD ────────────────────────────────
+// ── CUSTOMER CRUD ─────────────────────────────────────
 function openCustModal(id=null){
   document.getElementById('cm-id').value=id||'';
   document.getElementById('custMTitle').textContent=id?'Edit Customer':'New Customer';
   const c=id?Custs.find(x=>x.id===id):null;
-  document.getElementById('cm-name').value=c?c.name:'';
-  document.getElementById('cm-phone').value=c?c.phone||'':'';
-  document.getElementById('cm-addr').value=c?c.address||'':'';
+  document.getElementById('cm-name').value=c?.name||'';
+  document.getElementById('cm-phone').value=c?.phone||'';
+  document.getElementById('cm-addr').value=c?.address||'';
   openM('custModal');
 }
 function editCust(id){openCustModal(id);}
@@ -870,18 +891,17 @@ async function saveCust(){
 }
 async function delCust(id){
   if(!confirm('Delete?'))return;
-  try{ await api('/customers?id='+id,{method:'DELETE'}); await fetchCusts(); toast('Deleted!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/customers?id='+id,{method:'DELETE'}); await fetchCusts(); toast('Deleted!'); }catch(e){toast(e.message,'err');}
 }
 
-// ─── SUPPLIER CRUD ────────────────────────────────
+// ── SUPPLIER CRUD ─────────────────────────────────────
 function openSuppModal(id=null){
   document.getElementById('sm-id').value=id||'';
   document.getElementById('suppMTitle').textContent=id?'Edit Supplier':'New Supplier';
   const s=id?Supps.find(x=>x.id===id):null;
-  document.getElementById('sm-name').value=s?s.name:'';
-  document.getElementById('sm-phone').value=s?s.phone||'':'';
-  document.getElementById('sm-addr').value=s?s.address||'':'';
+  document.getElementById('sm-name').value=s?.name||'';
+  document.getElementById('sm-phone').value=s?.phone||'';
+  document.getElementById('sm-addr').value=s?.address||'';
   openM('suppModal');
 }
 function editSupp(id){openSuppModal(id);}
@@ -897,20 +917,14 @@ async function saveSupp(){
 }
 async function delSupp(id){
   if(!confirm('Delete?'))return;
-  try{ await api('/suppliers?id='+id,{method:'DELETE'}); await fetchSupps(); toast('Deleted!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/suppliers?id='+id,{method:'DELETE'}); await fetchSupps(); toast('Deleted!'); }catch(e){toast(e.message,'err');}
 }
 
-// ─── SELL FORM ────────────────────────────────────
+// ── SELL FORM ─────────────────────────────────────────
 function populateSellCusts(){
   const sel=document.getElementById('s-cust');
   sel.innerHTML='<option value="">— Walk-in / Cash Sale —</option>';
-  Custs.forEach(c=>{
-    const o=document.createElement('option');
-    o.value=c.id;
-    o.textContent=c.name+(parseFloat(c.balance)>0?` (Due: ₹${fmt(c.balance)})`:'');
-    sel.appendChild(o);
-  });
+  Custs.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=c.name+(parseFloat(c.balance)>0?` (Due: ₹${fmt(c.balance)})`:''); sel.appendChild(o); });
 }
 function resetSell(){
   document.getElementById('s-rows').innerHTML='';
@@ -919,23 +933,19 @@ function resetSell(){
   document.getElementById('s-bal').value='';
   document.getElementById('s-notes').value='';
   document.getElementById('s-date').value=today();
-  populateSellCusts();
-  addSellRow();
+  populateSellCusts(); addSellRow();
 }
 function addSellRow(){
-  const tb=document.getElementById('s-rows');
-  const idx=tb.children.length;
+  const tb=document.getElementById('s-rows'), idx=tb.children.length;
   const tr=document.createElement('tr');
   tr.innerHTML=`
-    <td>
-      <div style="display:flex;gap:3px">
-        <select class="fselect" data-form="sell" data-idx="${idx}" onchange="onItemSel(this,'sell',${idx})" style="flex:1;min-width:150px">
-          <option value="">— Item —</option>
-          ${Items.map(i=>`<option value="${i.id}" data-rate="${i.sale_price}" data-unit="${esc(i.unit_name||'')}" data-unitid="${i.unit_id||''}">${esc(i.name)}</option>`).join('')}
-        </select>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="openQI('sell',${idx})" title="Naya item add karo">➕</button>
-      </div>
-    </td>
+    <td><div style="display:flex;gap:3px">
+      <select class="fselect" onchange="onItemSel(this,'sell',${idx})" style="flex:1;min-width:150px">
+        <option value="">— Item —</option>
+        ${Items.map(i=>`<option value="${i.id}" data-rate="${i.sale_price}" data-unit="${esc(i.unit_name||'')}" data-stock="${i.current_stock}">${esc(i.name)} (Stock: ${i.current_stock})</option>`).join('')}
+      </select>
+      <button class="btn btn-ghost btn-sm btn-icon" onclick="openQI('sell',${idx})" title="New item">➕</button>
+    </div></td>
     <td><input type="number" class="finput" id="sell-qty-${idx}" value="1" min="0.001" step="any" oninput="calcSell()"></td>
     <td><input type="text" class="finput" id="sell-unit-${idx}" readonly placeholder="-" style="min-width:80px"></td>
     <td><input type="number" class="finput" id="sell-rate-${idx}" value="0" step="any" oninput="calcSell()"></td>
@@ -955,8 +965,7 @@ function calcSell(){
     const q=parseFloat(document.getElementById(`sell-qty-${i}`)?.value)||0;
     const r=parseFloat(document.getElementById(`sell-rate-${i}`)?.value)||0;
     const a=q*r; tot+=a;
-    const el=document.getElementById(`sell-amt-${i}`);
-    if(el) el.textContent='₹'+fmt(a);
+    const el=document.getElementById(`sell-amt-${i}`); if(el) el.textContent='₹'+fmt(a);
   });
   document.getElementById('s-total').textContent='₹'+fmt(tot);
   const paid=parseFloat(document.getElementById('s-paid').value)||0;
@@ -969,9 +978,9 @@ async function submitSale(){
     const sel=document.querySelector(`#s-rows tr:nth-child(${i+1}) select`);
     const qty=parseFloat(document.getElementById(`sell-qty-${i}`)?.value)||0;
     const rate=parseFloat(document.getElementById(`sell-rate-${i}`)?.value)||0;
-    if(qty>0&&rate>0) items.push({item_id:sel?.value||null,item_name:sel?.options[sel.selectedIndex]?.text||'?',qty,rate,unit_name:document.getElementById(`sell-unit-${i}`)?.value||''});
+    if(qty>0&&rate>0) items.push({item_id:sel?.value||null,item_name:sel?.options[sel.selectedIndex]?.text.split(' (Stock:')[0]||'?',qty,rate,unit_name:document.getElementById(`sell-unit-${i}`)?.value||''});
   });
-  if(!items.length){toast('Koi item nahi add kiya!','err');return;}
+  if(!items.length){toast('Koi item nahi!','err');return;}
   const d={sale_date:document.getElementById('s-date').value,customer_id:document.getElementById('s-cust').value||null,items,paid_amount:document.getElementById('s-paid').value||0,notes:document.getElementById('s-notes').value};
   try{
     const r=await api('/sales',{method:'POST',body:JSON.stringify(d)});
@@ -980,16 +989,11 @@ async function submitSale(){
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── BUY FORM ─────────────────────────────────────
+// ── BUY FORM ──────────────────────────────────────────
 function populateBuySupps(){
   const sel=document.getElementById('b-supp');
   sel.innerHTML='<option value="">— Supplier Choose Karo —</option>';
-  Supps.forEach(s=>{
-    const o=document.createElement('option');
-    o.value=s.id;
-    o.textContent=s.name+(parseFloat(s.balance)>0?` (Due: ₹${fmt(s.balance)})`:'');
-    sel.appendChild(o);
-  });
+  Supps.forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.name+(parseFloat(s.balance)>0?` (Due: ₹${fmt(s.balance)})`:''); sel.appendChild(o); });
 }
 function resetBuy(){
   document.getElementById('b-rows').innerHTML='';
@@ -998,23 +1002,19 @@ function resetBuy(){
   document.getElementById('b-bal').value='';
   document.getElementById('b-notes').value='';
   document.getElementById('b-date').value=today();
-  populateBuySupps();
-  addBuyRow();
+  populateBuySupps(); addBuyRow();
 }
 function addBuyRow(){
-  const tb=document.getElementById('b-rows');
-  const idx=tb.children.length;
+  const tb=document.getElementById('b-rows'), idx=tb.children.length;
   const tr=document.createElement('tr');
   tr.innerHTML=`
-    <td>
-      <div style="display:flex;gap:3px">
-        <select class="fselect" data-form="buy" data-idx="${idx}" onchange="onItemSel(this,'buy',${idx})" style="flex:1;min-width:150px">
-          <option value="">— Item —</option>
-          ${Items.map(i=>`<option value="${i.id}" data-rate="${i.purchase_price}" data-unit="${esc(i.unit_name||'')}" data-unitid="${i.unit_id||''}">${esc(i.name)}</option>`).join('')}
-        </select>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="openQI('buy',${idx})" title="Naya item add karo">➕</button>
-      </div>
-    </td>
+    <td><div style="display:flex;gap:3px">
+      <select class="fselect" onchange="onItemSel(this,'buy',${idx})" style="flex:1;min-width:150px">
+        <option value="">— Item —</option>
+        ${Items.map(i=>`<option value="${i.id}" data-rate="${i.purchase_price}" data-unit="${esc(i.unit_name||'')}">${esc(i.name)}</option>`).join('')}
+      </select>
+      <button class="btn btn-ghost btn-sm btn-icon" onclick="openQI('buy',${idx})" title="New item">➕</button>
+    </div></td>
     <td><input type="number" class="finput" id="buy-qty-${idx}" value="1" min="0.001" step="any" oninput="calcBuy()"></td>
     <td><input type="text" class="finput" id="buy-unit-${idx}" readonly placeholder="-" style="min-width:80px"></td>
     <td><input type="number" class="finput" id="buy-rate-${idx}" value="0" step="any" oninput="calcBuy()"></td>
@@ -1028,8 +1028,7 @@ function calcBuy(){
     const q=parseFloat(document.getElementById(`buy-qty-${i}`)?.value)||0;
     const r=parseFloat(document.getElementById(`buy-rate-${i}`)?.value)||0;
     const a=q*r; tot+=a;
-    const el=document.getElementById(`buy-amt-${i}`);
-    if(el) el.textContent='₹'+fmt(a);
+    const el=document.getElementById(`buy-amt-${i}`); if(el) el.textContent='₹'+fmt(a);
   });
   document.getElementById('b-total').textContent='₹'+fmt(tot);
   const paid=parseFloat(document.getElementById('b-paid').value)||0;
@@ -1053,14 +1052,12 @@ async function submitPurchase(){
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── QUICK ADD ITEM ───────────────────────────────
+// ── QUICK ADD ITEM ────────────────────────────────────
 function openQI(form,idx){
   qiCtx={form,idx};
   populateSel('qi-group',Groups,'Select Group');
   populateSel('qi-unit',Units,'Select Unit');
-  document.getElementById('qi-name').value='';
-  document.getElementById('qi-pp').value='';
-  document.getElementById('qi-sp').value='';
+  ['qi-name','qi-pp','qi-sp'].forEach(id=>document.getElementById(id).value='');
   openM('qiModal');
 }
 async function saveQI(){
@@ -1068,15 +1065,12 @@ async function saveQI(){
   if(!d.name){toast('Naam dalo!','err');return;}
   try{
     const r=await api('/items',{method:'POST',body:JSON.stringify(d)});
-    await fetchItems();
-    closeM('qiModal');
-    toast('Item added!');
+    await fetchItems(); closeM('qiModal'); toast('Item added!');
     if(qiCtx){
       const {form,idx}=qiCtx;
       const sel=document.querySelector(`#${form}-rows tr:nth-child(${idx+1}) select`);
       if(sel){
-        const newItem=Items.find(i=>i.id===r.id)||Items[Items.length-1];
-        sel.innerHTML=`<option value="">— Item —</option>`+Items.map(i=>`<option value="${i.id}" data-rate="${form==='sell'?i.sale_price:i.purchase_price}" data-unit="${esc(i.unit_name||'')}">${esc(i.name)}</option>`).join('');
+        sel.innerHTML=`<option value="">— Item —</option>`+Items.map(i=>`<option value="${i.id}" data-rate="${form==='sell'?i.sale_price:i.purchase_price}" data-unit="${esc(i.unit_name||'')}" data-stock="${i.current_stock}">${esc(i.name)}${form==='sell'?` (Stock: ${i.current_stock})`:''}</option>`).join('');
         sel.value=r.id;
         const opt=sel.options[sel.selectedIndex];
         document.getElementById(`${form}-rate-${idx}`).value=opt?.dataset.rate||0;
@@ -1087,7 +1081,7 @@ async function saveQI(){
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── PAYMENT ──────────────────────────────────────
+// ── PAYMENT ───────────────────────────────────────────
 function openPayModal(type){
   document.getElementById('pm-type').value=type;
   document.getElementById('payMTitle').textContent=type==='received'?'💵 Payment Received (Customer ne diya)':'💸 Payment Made (Supplier ko diya)';
@@ -1095,14 +1089,8 @@ function openPayModal(type){
   document.getElementById('pm-date').value=today();
   document.getElementById('pm-amt').value='';
   document.getElementById('pm-notes').value='';
-  const sel=document.getElementById('pm-party');
-  sel.innerHTML='';
-  (type==='received'?Custs:Supps).forEach(p=>{
-    const o=document.createElement('option');
-    o.value=p.id;
-    o.textContent=`${p.name} (Balance: ₹${fmt(p.balance)})`;
-    sel.appendChild(o);
-  });
+  const sel=document.getElementById('pm-party'); sel.innerHTML='';
+  (type==='received'?Custs:Supps).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=`${p.name} (Balance: ₹${fmt(p.balance)})`; sel.appendChild(o); });
   openM('payModal');
 }
 async function savePay(){
@@ -1120,10 +1108,10 @@ async function savePay(){
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── LEDGER ───────────────────────────────────────
+// ── LEDGER ────────────────────────────────────────────
 async function viewLedger(type,id,name){
   go('ledger');
-  document.getElementById('ledger-title').innerHTML=`Ledger — <span>${name}</span>`;
+  document.getElementById('ledger-title').innerHTML=`Ledger — <span>${esc(name)}</span>`;
   const party=type==='customer'?Custs.find(c=>c.id===id):Supps.find(s=>s.id===id);
   const bal=party?parseFloat(party.balance):0;
   document.getElementById('ledger-top-area').innerHTML=`
@@ -1132,16 +1120,16 @@ async function viewLedger(type,id,name){
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px">${type==='customer'?'Customer':'Supplier'}</div>
         <div class="lt-name">${esc(name)}</div>
       </div>
-      <div class="lt-bal" style="margin-left:auto">
-        <div style="font-size:11px;color:var(--text3)">${type==='customer'?'Pana Hai (Receivable)':'Dena Hai (Payable)'}</div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:11px;color:var(--text3)">${type==='customer'?'Pana Hai':'Dena Hai'}</div>
         <div class="lt-bal-val" style="color:${bal>0?'var(--red)':'var(--green)'}">₹${fmt(bal)}</div>
       </div>
-      ${bal>0?`<button class="btn btn-green" onclick="openPayModal('${type==='customer'?'received':'made'}')">💵 Payment Record</button>`:''}
+      ${bal>0?`<button class="btn btn-green btn-sm" onclick="openPayModal('${type==='customer'?'received':'made'}')">💵 Payment Record</button>`:''}
     </div>`;
   try{
     const entries=await api(`/ledger?type=${type}&id=${id}`);
     const tb=document.getElementById('ledger-tb');
-    if(!entries.length){tb.innerHTML=emptyRow(6,'📒','Koi entry nahi');return;}
+    if(!entries.length){tb.innerHTML=eRow(6,'📒','Koi entry nahi');return;}
     tb.innerHTML=entries.map(e=>`<tr>
       <td>${e.entry_date}</td>
       <td><span class="badge bg-blue">${e.entry_type.replace(/_/g,' ')}</span></td>
@@ -1153,126 +1141,122 @@ async function viewLedger(type,id,name){
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── STOCK ────────────────────────────────────────
+// ── STOCK ─────────────────────────────────────────────
 async function loadStock(){
   try{
     const rows=await api('/reports?type=stock');
     const tb=document.getElementById('stock-tb');
-    if(!rows.length){tb.innerHTML=emptyRow(7,'📦','Koi stock nahi');return;}
+    if(!rows.length){tb.innerHTML=eRow(7,'📦','Koi stock nahi');return;}
     tb.innerHTML=rows.map(i=>{
       const isLow=parseFloat(i.current_stock)<=parseFloat(i.low_stock_alert)&&parseFloat(i.low_stock_alert)>0;
-      const unitInfo=i.conversion_qty?`${i.unit_name} (1=${i.conversion_qty} ${i.base_unit_name})`:i.unit_name||'-';
+      const uInfo=i.conversion_qty?`${esc(i.unit_name)} (1=${i.conversion_qty} ${esc(i.base_unit_name||'')})`:esc(i.unit_name||'-');
       return `<tr>
-        <td><strong>${esc(i.name)}</strong></td>
-        <td>${esc(i.group_name||'-')}</td>
-        <td><strong>${i.current_stock}</strong></td>
-        <td style="font-size:12px;color:var(--text2)">${esc(unitInfo)}</td>
-        <td>₹${fmt(i.sale_price)}</td>
-        <td>₹${fmt(i.stock_value)}</td>
+        <td><strong>${esc(i.name)}</strong></td><td>${esc(i.group_name||'-')}</td>
+        <td><strong>${i.current_stock}</strong></td><td style="font-size:12px">${uInfo}</td>
+        <td>₹${fmt(i.sale_price)}</td><td>₹${fmt(i.stock_value)}</td>
         <td>${isLow?'<span class="badge bg-red">⚠️ Low</span>':'<span class="badge bg-green">OK</span>'}</td>
       </tr>`;
     }).join('');
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── SALES REPORT ─────────────────────────────────
+// ── SALES REPORT ──────────────────────────────────────
 async function loadSalesRep(){
   try{
-    const from=document.getElementById('sr-from').value;
-    const to=document.getElementById('sr-to').value;
+    const from=document.getElementById('sr-from').value, to=document.getElementById('sr-to').value;
     const rows=await api(`/sales?from=${from}&to=${to}`);
     const tb=document.getElementById('sr-tb');
-    if(!rows.length){tb.innerHTML=emptyRow(7,'📈','Is period mein koi sale nahi');return;}
-    let grandTotal=0;
+    if(!rows.length){tb.innerHTML=eRow(8,'📈','Koi sale nahi');return;}
+    let grand=0;
     tb.innerHTML=rows.map(s=>{
-      grandTotal+=parseFloat(s.total_amount)||0;
+      grand+=parseFloat(s.total_amount)||0;
       const due=(parseFloat(s.total_amount)||0)-(parseFloat(s.paid_amount)||0);
       return `<tr>
-        <td style="color:var(--text3)">#${s.id}</td>
-        <td>${s.sale_date}</td>
+        <td style="color:var(--text3)">#${s.id}</td><td>${s.sale_date}</td>
         <td>${esc(s.customer_display||s.customer_name||'Walk-in')}</td>
         <td><strong>₹${fmt(s.total_amount)}</strong></td>
         <td style="color:var(--green)">₹${fmt(s.paid_amount)}</td>
         <td style="color:${due>0?'var(--red)':'var(--green)'}">₹${fmt(due)}</td>
         <td><span class="badge ${s.payment_mode==='cash'?'bg-green':s.payment_mode==='credit'?'bg-red':'bg-orange'}">${s.payment_mode}</span></td>
+        <td>${isAdmin()?`<button class="btn btn-ghost btn-sm btn-icon" onclick="delSale(${s.id})" style="color:var(--red)" title="Delete">🗑️</button>`:''}
+        </td>
       </tr>`;
     }).join('');
-    tb.innerHTML+=`<tr style="background:var(--bg3)"><td colspan="3"><strong>Total (${rows.length} bills)</strong></td><td><strong style="color:var(--accent)">₹${fmt(grandTotal)}</strong></td><td colspan="3"></td></tr>`;
+    tb.innerHTML+=`<tr style="background:var(--bg3)"><td colspan="3"><strong>Total (${rows.length} bills)</strong></td><td><strong style="color:var(--accent)">₹${fmt(grand)}</strong></td><td colspan="4"></td></tr>`;
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── PURCHASE REPORT ──────────────────────────────
+// ── PURCHASE REPORT ───────────────────────────────────
 async function loadPurchRep(){
   try{
-    const from=document.getElementById('pr-from').value;
-    const to=document.getElementById('pr-to').value;
+    const from=document.getElementById('pr-from').value, to=document.getElementById('pr-to').value;
     const rows=await api(`/purchases?from=${from}&to=${to}`);
     const tb=document.getElementById('pr-tb');
-    if(!rows.length){tb.innerHTML=emptyRow(7,'📦','Koi purchase nahi');return;}
-    let grandTotal=0;
+    if(!rows.length){tb.innerHTML=eRow(8,'📦','Koi purchase nahi');return;}
+    let grand=0;
     tb.innerHTML=rows.map(p=>{
-      grandTotal+=parseFloat(p.total_amount)||0;
+      grand+=parseFloat(p.total_amount)||0;
       const due=(parseFloat(p.total_amount)||0)-(parseFloat(p.paid_amount)||0);
       return `<tr>
-        <td style="color:var(--text3)">#${p.id}</td>
-        <td>${p.purchase_date}</td>
+        <td style="color:var(--text3)">#${p.id}</td><td>${p.purchase_date}</td>
         <td>${esc(p.supplier_display||p.supplier_name||'-')}</td>
         <td><strong>₹${fmt(p.total_amount)}</strong></td>
         <td style="color:var(--green)">₹${fmt(p.paid_amount)}</td>
         <td style="color:${due>0?'var(--red)':'var(--green)'}">₹${fmt(due)}</td>
         <td><span class="badge ${p.payment_mode==='cash'?'bg-green':p.payment_mode==='credit'?'bg-red':'bg-orange'}">${p.payment_mode}</span></td>
+        <td>${isAdmin()?`<button class="btn btn-ghost btn-sm btn-icon" onclick="delPurchase(${p.id})" style="color:var(--red)" title="Delete">🗑️</button>`:''}
+        </td>
       </tr>`;
     }).join('');
-    tb.innerHTML+=`<tr style="background:var(--bg3)"><td colspan="3"><strong>Total (${rows.length} entries)</strong></td><td><strong style="color:var(--accent)">₹${fmt(grandTotal)}</strong></td><td colspan="3"></td></tr>`;
+    tb.innerHTML+=`<tr style="background:var(--bg3)"><td colspan="3"><strong>Total (${rows.length} entries)</strong></td><td><strong style="color:var(--accent)">₹${fmt(grand)}</strong></td><td colspan="4"></td></tr>`;
   }catch(e){toast(e.message,'err');}
 }
 
-// ─── MASTERS ──────────────────────────────────────
-function renderMasters(){ renderGroups(); renderUnits(); }
+// ── ADMIN DELETE ──────────────────────────────────────
+async function delSale(id){
+  if(!confirm('Sale #'+id+' delete karo?\n⚠️ Stock wapas adjust nahi hoga!'))return;
+  try{ await api('/sales?id='+id,{method:'DELETE'}); toast('Sale deleted!'); loadSalesRep(); await fetchItems(); }catch(e){toast(e.message,'err');}
+}
+async function delPurchase(id){
+  if(!confirm('Purchase #'+id+' delete karo?\n⚠️ Stock wapas adjust nahi hoga!'))return;
+  try{ await api('/purchases?id='+id,{method:'DELETE'}); toast('Purchase deleted!'); loadPurchRep(); await fetchItems(); }catch(e){toast(e.message,'err');}
+}
 
+// ── MASTERS ───────────────────────────────────────────
+function renderMasters(){ renderGroups(); renderUnits(); }
 function renderGroups(){
   document.getElementById('groups-list').innerHTML=Groups.length
-    ? Groups.map(g=>`<div class="mc-row"><span>${esc(g.name)}</span><button class="btn btn-ghost btn-sm btn-icon" onclick="delGroup(${g.id})" style="color:var(--red)">🗑️</button></div>`).join('')
-    : '<div style="color:var(--text3);font-size:13px;padding:8px 0">Koi group nahi</div>';
+    ?Groups.map(g=>`<div class="mc-row"><span>${esc(g.name)}</span><button class="btn btn-ghost btn-sm btn-icon" onclick="delGroup(${g.id})" style="color:var(--red)">🗑️</button></div>`).join('')
+    :'<div style="color:var(--text3);font-size:13px;padding:6px 0">Koi group nahi</div>';
 }
-
 function renderUnits(){
   document.getElementById('units-list').innerHTML=Units.length
-    ? Units.map(u=>`
-      <div class="mc-row">
-        <div>
-          <div>${esc(u.name)}</div>
-          ${u.conversion_qty?`<div class="mc-unit-detail">1 ${esc(u.name)} = ${u.conversion_qty} ${esc(u.base_unit_name||'?')} (compound)</div>`:'<div class="mc-unit-detail">Simple unit</div>'}
-        </div>
+    ?Units.map(u=>`<div class="mc-row">
+        <div><div>${esc(u.name)}</div><div class="mc-sub">${u.conversion_qty?`Compound: 1=${u.conversion_qty} ${esc(u.base_unit_name||'?')}`:'Simple unit'}</div></div>
         <button class="btn btn-ghost btn-sm btn-icon" onclick="delUnit(${u.id})" style="color:var(--red)">🗑️</button>
       </div>`).join('')
-    : '<div style="color:var(--text3);font-size:13px;padding:8px 0">Koi unit nahi</div>';
+    :'<div style="color:var(--text3);font-size:13px;padding:6px 0">Koi unit nahi</div>';
 }
-
 async function addGroup(){
-  const name=prompt('Group ka naam:');
-  if(!name)return;
-  try{ await api('/groups',{method:'POST',body:JSON.stringify({name})}); await fetchGroups(); renderGroups(); toast('Group added!'); }
-  catch(e){toast(e.message,'err');}
+  const name=prompt('Group ka naam:'); if(!name)return;
+  try{ await api('/groups',{method:'POST',body:JSON.stringify({name})}); await fetchGroups(); renderGroups(); toast('Group added!'); }catch(e){toast(e.message,'err');}
 }
 async function delGroup(id){
   if(!confirm('Delete?'))return;
-  try{ await api('/groups?id='+id,{method:'DELETE'}); await fetchGroups(); renderGroups(); toast('Deleted!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/groups?id='+id,{method:'DELETE'}); await fetchGroups(); renderGroups(); toast('Deleted!'); }catch(e){toast(e.message,'err');}
 }
-
 function openUnitModal(){
   document.getElementById('um-name').value='';
   document.getElementById('um-type').value='simple';
   document.getElementById('um-qty').value='';
-  document.getElementById('um-compound-section').style.display='none';
+  document.getElementById('um-csec').style.display='none';
   populateSel('um-base',Units.filter(u=>!u.base_unit_id),'Select Base Unit');
   openM('unitModal');
 }
 function toggleCompound(){
-  const isComp=document.getElementById('um-type').value==='compound';
-  document.getElementById('um-compound-section').style.display=isComp?'block':'none';
-  if(isComp) populateSel('um-base',Units.filter(u=>!u.base_unit_id),'Select Base Unit');
+  const isC=document.getElementById('um-type').value==='compound';
+  document.getElementById('um-csec').style.display=isC?'block':'none';
+  if(isC) populateSel('um-base',Units.filter(u=>!u.base_unit_id),'Select Base Unit');
 }
 async function saveUnit(){
   const name=document.getElementById('um-name').value.trim();
@@ -1282,22 +1266,20 @@ async function saveUnit(){
   if(type==='compound'){
     d.base_unit_id=document.getElementById('um-base').value;
     d.conversion_qty=document.getElementById('um-qty').value;
-    if(!d.base_unit_id||!d.conversion_qty){toast('Base unit aur quantity dalo!','err');return;}
+    if(!d.base_unit_id||!d.conversion_qty){toast('Base unit aur qty dalo!','err');return;}
   }
-  try{ await api('/units',{method:'POST',body:JSON.stringify(d)}); await fetchUnits(); closeM('unitModal'); renderUnits(); toast('Unit added!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/units',{method:'POST',body:JSON.stringify(d)}); await fetchUnits(); closeM('unitModal'); renderUnits(); toast('Unit added!'); }catch(e){toast(e.message,'err');}
 }
 async function delUnit(id){
   if(!confirm('Delete?'))return;
-  try{ await api('/units?id='+id,{method:'DELETE'}); await fetchUnits(); renderUnits(); toast('Deleted!'); }
-  catch(e){toast(e.message,'err');}
+  try{ await api('/units?id='+id,{method:'DELETE'}); await fetchUnits(); renderUnits(); toast('Deleted!'); }catch(e){toast(e.message,'err');}
 }
 
-// ─── HELPERS ──────────────────────────────────────
+// ── HELPERS ───────────────────────────────────────────
 function fmt(n){ return (parseFloat(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function today(){ return new Date().toISOString().split('T')[0]; }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function emptyRow(cols,ico,txt){ return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">${ico}</div><div class="empty-txt">${txt}</div></div></td></tr>`; }
+function eRow(cols,ico,txt){ return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">${ico}</div><div class="empty-txt">${txt}</div></div></td></tr>`; }
 function populateSel(id,list,ph){ const s=document.getElementById(id); s.innerHTML=`<option value="">${ph}</option>`+list.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join(''); }
 function filterTbl(inp,tbId){ const q=inp.value.toLowerCase(); document.querySelectorAll(`#${tbId} tr`).forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none'; }); }
 </script>
