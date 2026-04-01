@@ -11,8 +11,11 @@ function getPool() {
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       waitForConnections: true,
-      connectionLimit: 5,
-      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined
+      connectionLimit: 2,
+	  queueLimit: 10,
+	  enableKeepAlive: true,
+      keepAliveInitialDelay: 0,
+      ssl: process.env.DB_SSL === 'true'  ? { rejectUnauthorized: false } : undefined
     });
   }
   return pool;
