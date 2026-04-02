@@ -13,6 +13,8 @@ function getPool() {
       waitForConnections: true,
       connectionLimit: 3,
       queueLimit: 10,
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 0,
       ssl: {
         rejectUnauthorized: false
       }
