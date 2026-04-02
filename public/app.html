@@ -668,8 +668,12 @@ tbody tr:last-child td{border-bottom:none;}
 // ── THEME (runs before body renders) ─────────────────
 (function(){
   const saved = localStorage.getItem('db_theme');
-  if (saved === 'dark') document.body.classList.add('dark');
-  // default = light (no class needed)
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+    localStorage.setItem('db_theme','light');
+  }
 })();
 
 const API = '/api';
