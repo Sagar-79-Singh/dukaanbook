@@ -879,11 +879,11 @@ async function api(path, opts={}){
   if(!res.ok){const e=await res.json().catch(()=>({error:res.statusText}));throw new Error(e.error||res.statusText);}
   return res.json();
 }
-async function fetchItems(){Items=await api('/items');renderItems();}
+async function fetchItems(){Items=await api('/inventory?type=item');renderItems();}
 async function fetchCusts(){Custs=await api('/customers');renderCusts();}
 async function fetchSupps(){Supps=await api('/suppliers');renderSupps();}
 async function fetchGroups(){Groups=await api('/groups');}
-async function fetchUnits(){Units=await api('/units');}
+async function fetchUnits(){Units=await api('/inventory?type=item');}
 
 // ── MORE PANEL ────────────────────────────────────────
 function toggleMore(){
@@ -1025,14 +1025,14 @@ async function saveItem(){
   const d={name:document.getElementById('im-name').value.trim(),group_id:document.getElementById('im-group').value,unit_id:document.getElementById('im-unit').value,purchase_price:document.getElementById('im-pp').value,sale_price:document.getElementById('im-sp').value,opening_stock:document.getElementById('im-os').value,low_stock_alert:document.getElementById('im-ls').value};
   if(!d.name){toast('Naam dalo!','err');return;}
   try{
-    if(id) await api('/items?id='+id,{method:'PUT',body:JSON.stringify(d)});
-    else   await api('/items',{method:'POST',body:JSON.stringify(d)});
+    if(id) await api('/inventory?type=item?id='+id,{method:'PUT',body:JSON.stringify(d)});
+    else   await api('/inventory?type=item',{method:'POST',body:JSON.stringify(d)});
     closeM('itemModal');await fetchItems();toast(id?'Updated!':'Added!');
   }catch(e){toast(e.message,'err');}
 }
 async function delItem(id){
   if(!confirm('Item delete karo?'))return;
-  try{await api('/items?id='+id,{method:'DELETE'});await fetchItems();toast('Deleted!');}catch(e){toast(e.message,'err');}
+  try{await api('/inventory?type=item?id='+id,{method:'DELETE'});await fetchItems();toast('Deleted!');}catch(e){toast(e.message,'err');}
 }
 
 // ── CUSTOMER CRUD ─────────────────────────────────────
@@ -1160,7 +1160,7 @@ async function submitSale(){
   if(!items.length){toast('Koi item nahi!','err');return;}
   const d={sale_date:document.getElementById('s-date').value,customer_id:document.getElementById('s-cust').value||null,items,paid_amount:document.getElementById('s-paid').value||0,notes:document.getElementById('s-notes').value};
   try{
-    const r=await api('/sales',{method:'POST',body:JSON.stringify(d)});
+    const r=await api('/transactions?type=sale',{method:'POST',body:JSON.stringify(d)});
     toast(`Sale saved! ₹${fmt(r.total)}`);
     resetSell(); await fetchItems(); await fetchCusts();
   }catch(e){toast(e.message,'err');}
@@ -1239,7 +1239,7 @@ async function submitPurchase(){
   if(!items.length){toast('Koi item nahi!','err');return;}
   const d={purchase_date:document.getElementById('b-date').value,supplier_id:document.getElementById('b-supp').value||null,items,paid_amount:document.getElementById('b-paid').value||0,notes:document.getElementById('b-notes').value};
   try{
-    const r=await api('/purchases',{method:'POST',body:JSON.stringify(d)});
+    const r=await api('/transactions?type=purchase',{method:'POST',body:JSON.stringify(d)});
     toast(`Purchase saved! ₹${fmt(r.total)}`);
     resetBuy(); await fetchItems(); await fetchSupps();
   }catch(e){toast(e.message,'err');}
@@ -1257,7 +1257,7 @@ async function saveQI(){
   const d={name:document.getElementById('qi-name').value.trim(),group_id:document.getElementById('qi-group').value,unit_id:document.getElementById('qi-unit').value,purchase_price:document.getElementById('qi-pp').value||0,sale_price:document.getElementById('qi-sp').value||0,opening_stock:0};
   if(!d.name){toast('Naam dalo!','err');return;}
   try{
-    const r=await api('/items',{method:'POST',body:JSON.stringify(d)});
+    const r=await api('/transactions?type=purchase',{method:'POST',body:JSON.stringify(d)});
     await fetchItems(); closeM('qiModal'); toast('Item added!');
     if(qiCtx){
       const{form,idx}=qiCtx;
@@ -1298,7 +1298,7 @@ async function savePay(){
   const amount=document.getElementById('pm-amt').value;
   if(!party_id||!amount){toast('Party aur amount dalo!','err');return;}
   try{
-    await api('/payments',{method:'POST',body:JSON.stringify({type,party_id,amount,date:document.getElementById('pm-date').value,notes:document.getElementById('pm-notes').value})});
+    await api('/inventory?type=item',{method:'POST',body:JSON.stringify({type,party_id,amount,date:document.getElementById('pm-date').value,notes:document.getElementById('pm-notes').value})});
     closeM('payModal');
     if(type==='received') await fetchCusts(); else await fetchSupps();
     toast('Payment saved!'); loadDash();
@@ -1371,7 +1371,7 @@ async function loadStock(){
 async function loadSalesRep(){
   try{
     const from=document.getElementById('sr-from').value, to=document.getElementById('sr-to').value;
-    const rows=await api(`/sales?from=${from}&to=${to}`);
+    const rows=await api(`/transactions?type=sale?from=${from}&to=${to}`);
     const el=document.getElementById('sr-list');
     if(!rows.length){el.innerHTML=emptyEl('📈','Koi sale nahi');return;}
     let grand=0;
@@ -1406,7 +1406,7 @@ async function loadSalesRep(){
 async function loadPurchRep(){
   try{
     const from=document.getElementById('pr-from').value, to=document.getElementById('pr-to').value;
-    const rows=await api(`/purchases?from=${from}&to=${to}`);
+    const rows=await api(`/transactions?type=sale?from=${from}&to=${to}`);
     const el=document.getElementById('pr-list');
     if(!rows.length){el.innerHTML=emptyEl('📦','Koi purchase nahi');return;}
     let grand=0;
@@ -1440,11 +1440,11 @@ async function loadPurchRep(){
 // ── ADMIN DELETE ──────────────────────────────────────
 async function delSale(id){
   if(!confirm('Sale #'+id+' delete karo?\n⚠️ Stock adjust nahi hoga!'))return;
-  try{await api('/sales?id='+id,{method:'DELETE'});toast('Deleted!');loadSalesRep();await fetchItems();}catch(e){toast(e.message,'err');}
+  try{await api('/transactions?type=sale?id='+id,{method:'DELETE'});toast('Deleted!');loadSalesRep();await fetchItems();}catch(e){toast(e.message,'err');}
 }
 async function delPurchase(id){
   if(!confirm('Purchase #'+id+' delete karo?\n⚠️ Stock adjust nahi hoga!'))return;
-  try{await api('/purchases?id='+id,{method:'DELETE'});toast('Deleted!');loadPurchRep();await fetchItems();}catch(e){toast(e.message,'err');}
+  try{await api('/transactions?type=sale?id='+id,{method:'DELETE'});toast('Deleted!');loadPurchRep();await fetchItems();}catch(e){toast(e.message,'err');}
 }
 
 // ── MASTERS ───────────────────────────────────────────
@@ -1493,11 +1493,11 @@ async function saveUnit(){
     d.conversion_qty=document.getElementById('um-qty').value;
     if(!d.base_unit_id||!d.conversion_qty){toast('Base unit aur qty dalo!','err');return;}
   }
-  try{await api('/units',{method:'POST',body:JSON.stringify(d)});await fetchUnits();closeM('unitModal');renderUnits();toast('Unit added!');}catch(e){toast(e.message,'err');}
+  try{await api('/inventory?type=unit',{method:'POST',body:JSON.stringify(d)});await fetchUnits();closeM('unitModal');renderUnits();toast('Unit added!');}catch(e){toast(e.message,'err');}
 }
 async function delUnit(id){
   if(!confirm('Delete?'))return;
-  try{await api('/units?id='+id,{method:'DELETE'});await fetchUnits();renderUnits();toast('Deleted!');}catch(e){toast(e.message,'err');}
+  try{await api('/inventory?type=unit?id='+id,{method:'DELETE'});await fetchUnits();renderUnits();toast('Deleted!');}catch(e){toast(e.message,'err');}
 }
 
 // ── HELPERS ───────────────────────────────────────────
