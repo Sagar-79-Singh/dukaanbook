@@ -883,7 +883,7 @@ async function fetchItems(){Items=await api('/inventory?type=item');renderItems(
 async function fetchCusts(){Custs=await api('/customers');renderCusts();}
 async function fetchSupps(){Supps=await api('/suppliers');renderSupps();}
 async function fetchGroups(){Groups=await api('/groups');}
-async function fetchUnits(){Units=await api('/inventory?type=item');}
+async function fetchUnits(){Units=await api('/inventory?type=unit');}
 
 // ── MORE PANEL ────────────────────────────────────────
 function toggleMore(){
@@ -1298,7 +1298,7 @@ async function savePay(){
   const amount=document.getElementById('pm-amt').value;
   if(!party_id||!amount){toast('Party aur amount dalo!','err');return;}
   try{
-    await api('/inventory?type=item',{method:'POST',body:JSON.stringify({type,party_id,amount,date:document.getElementById('pm-date').value,notes:document.getElementById('pm-notes').value})});
+    await api('/transactions?type=payment',{method:'POST',body:JSON.stringify({type,party_id,amount,date:document.getElementById('pm-date').value,notes:document.getElementById('pm-notes').value})});
     closeM('payModal');
     if(type==='received') await fetchCusts(); else await fetchSupps();
     toast('Payment saved!'); loadDash();
@@ -1371,7 +1371,7 @@ async function loadStock(){
 async function loadSalesRep(){
   try{
     const from=document.getElementById('sr-from').value, to=document.getElementById('sr-to').value;
-    const rows=await api(`/transactions?type=sale?from=${from}&to=${to}`);
+    const rows=await api(`/transactions?type=sale&from=${from}&to=${to}`);
     const el=document.getElementById('sr-list');
     if(!rows.length){el.innerHTML=emptyEl('📈','Koi sale nahi');return;}
     let grand=0;
@@ -1406,7 +1406,7 @@ async function loadSalesRep(){
 async function loadPurchRep(){
   try{
     const from=document.getElementById('pr-from').value, to=document.getElementById('pr-to').value;
-    const rows=await api(`/transactions?type=sale?from=${from}&to=${to}`);
+    const rows=await api(`/transactions?type=purchase?from=${from}&to=${to}`);
     const el=document.getElementById('pr-list');
     if(!rows.length){el.innerHTML=emptyEl('📦','Koi purchase nahi');return;}
     let grand=0;
@@ -1440,11 +1440,11 @@ async function loadPurchRep(){
 // ── ADMIN DELETE ──────────────────────────────────────
 async function delSale(id){
   if(!confirm('Sale #'+id+' delete karo?\n⚠️ Stock adjust nahi hoga!'))return;
-  try{await api('/transactions?type=sale?id='+id,{method:'DELETE'});toast('Deleted!');loadSalesRep();await fetchItems();}catch(e){toast(e.message,'err');}
+  try{await api('/transactions?type=sale&id='+id,{method:'DELETE'});toast('Deleted!');loadSalesRep();await fetchItems();}catch(e){toast(e.message,'err');}
 }
 async function delPurchase(id){
   if(!confirm('Purchase #'+id+' delete karo?\n⚠️ Stock adjust nahi hoga!'))return;
-  try{await api('/transactions?type=sale?id='+id,{method:'DELETE'});toast('Deleted!');loadPurchRep();await fetchItems();}catch(e){toast(e.message,'err');}
+  try{await api('/transactions?type=purchase&id='+id,{method:'DELETE'});toast('Deleted!');loadPurchRep();await fetchItems();}catch(e){toast(e.message,'err');}
 }
 
 // ── MASTERS ───────────────────────────────────────────
